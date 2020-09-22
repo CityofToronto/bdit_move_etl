@@ -1,0 +1,7 @@
+apache-airflow==1.10.12
+cryptography==3.1.1
+Flask-Bcrypt==0.7.1
+mbutil==0.3.0
+pylint==2.6.0
+psycopg2==2.8.6
+requests==2.24.0

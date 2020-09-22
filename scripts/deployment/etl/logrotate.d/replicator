@@ -1,0 +1,10 @@
+/data/replicator/flashcrow-CRASH/dat/*.dat
+/data/replicator/flashcrow-FLOW/dat/*.dat {
+  su ec2-user ec2-user
+  weekly
+  rotate 4
+  olddir /data/backup
+  copy
+  dateext
+  compress
+}

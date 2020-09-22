@@ -1,0 +1,43 @@
+{
+	"extensions": {
+		"recommendations": [
+			"dbaeumer.vscode-eslint",
+			"ms-python.python",
+      "ms-vscode-remote.vscode-remote-extensionpack",
+      "octref.vetur",
+			"stylelint.vscode-stylelint"
+		]
+	},
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"Vagrantfile": "ruby"
+		},
+		"files.eol": "\n",
+    "explorer.confirmDelete": false,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
+		"editor.tabSize": 2,
+		"shellcheck.customArgs": [
+			"--shell=bash"
+		],
+		"editor.quickSuggestionsDelay": 250,
+		"files.watcherExclude": {
+			"**/.git/objects/**": true,
+			"**/dist/**": true,
+			"**/node_modules/**": true
+		},
+		"search.exclude": {
+			"**/node_modules": true,
+			"**/bower_components": true
+		},
+		"telemetry.enableCrashReporter": false,
+		"telemetry.enableTelemetry": false,
+		"editor.detectIndentation": false
+	}
+}
