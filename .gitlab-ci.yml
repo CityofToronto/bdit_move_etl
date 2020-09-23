@@ -1,0 +1,35 @@
+stages:
+  - deploy
+
+# deploy master to dev automatically
+deploy-dev:
+  stage: deploy
+  script:
+    - ./scripts/deployment/code-commit/deploy_code_commit.sh
+  only:
+    - master
+
+# deploy QA branch automatically
+deploy-qa:
+  stage: deploy
+  script:
+    - ./scripts/deployment/code-commit/deploy_code_commit.sh
+  only:
+    - deploy-qa
+
+# deploy staging automatically
+deploy-staging:
+  stage: deploy
+  script:
+    - echo deploy-staging
+  only:
+    - deploy-staging
+
+# deploy prod manually after approval
+deploy-prod:
+  stage: deploy
+  script:
+    - echo deploy-prod
+  only:
+    - deploy-prod
+  when: manual
