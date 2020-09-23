@@ -1,0 +1,10 @@
+version: 0.2
+runas: ec2-user
+
+phases:
+  build:
+    commands:
+      - echo "build-with-cache"
+artifacts:
+  files:
+    - '**/*'
