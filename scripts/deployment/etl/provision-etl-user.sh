@@ -36,7 +36,7 @@ AIRFLOW_ADMIN_PASSWORD=$(openssl rand -base64 32)
 python ./airflow_admin_user.py "${AIRFLOW_ADMIN_PASSWORD}"
 
 # copy airflow.cfg over
-cp /home/ec2-user/flashcrow/scripts/deployment/etl/airflow.cfg /home/ec2-user/airflow/airflow.cfg
+cp /home/ec2-user/move_etl/scripts/deployment/etl/airflow.cfg /home/ec2-user/airflow/airflow.cfg
 
 # install tippecanoe
 git clone https://github.com/mapbox/tippecanoe.git "$HOME/tippecanoe"
@@ -44,12 +44,12 @@ cd "$HOME/tippecanoe"
 make -j
 sudo make install
 
-ln -s /home/ec2-user/flashcrow/scripts/airflow/dags /home/ec2-user/airflow/dags
+ln -s /home/ec2-user/move_etl/scripts/airflow/dags /home/ec2-user/airflow/dags
 
 # copy over systemd files
-sudo cp /home/ec2-user/flashcrow/scripts/airflow/systemd/airflow /etc/sysconfig/airflow
-sudo cp /home/ec2-user/flashcrow/scripts/airflow/systemd/airflow-scheduler.service /usr/lib/systemd/system
-sudo cp /home/ec2-user/flashcrow/scripts/airflow/systemd/airflow-webserver.service /usr/lib/systemd/system
-sudo cp /home/ec2-user/flashcrow/scripts/airflow/systemd/airflow.conf /usr/lib/tmpfiles.d
+sudo cp /home/ec2-user/move_etl/scripts/airflow/systemd/airflow /etc/sysconfig/airflow
+sudo cp /home/ec2-user/move_etl/scripts/airflow/systemd/airflow-scheduler.service /usr/lib/systemd/system
+sudo cp /home/ec2-user/move_etl/scripts/airflow/systemd/airflow-webserver.service /usr/lib/systemd/system
+sudo cp /home/ec2-user/move_etl/scripts/airflow/systemd/airflow.conf /usr/lib/tmpfiles.d
 sudo systemctl start airflow-webserver
 sudo systemctl start airflow-scheduler

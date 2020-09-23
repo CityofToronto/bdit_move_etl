@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -euo pipefail
-GIT_ROOT=/home/ec2-user/flashcrow
+GIT_ROOT=/home/ec2-user/move_etl
 TASKS_ROOT="${GIT_ROOT}/scripts/airflow/tasks"
 FLASHCROW_DEV_DATA=/data/dev_data/flashcrow-dev-data.sql
 

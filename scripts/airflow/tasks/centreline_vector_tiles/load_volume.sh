@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -euo pipefail
-GIT_ROOT=/home/ec2-user/flashcrow
+GIT_ROOT=/home/ec2-user/move_etl
 TASKS_ROOT="${GIT_ROOT}/scripts/airflow/tasks"
 AADT_CSV=/data/aadt_volume/volume_aadt.csv
 AADT_SQL=/data/aadt_volume/volume_aadt.sql

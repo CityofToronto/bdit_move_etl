@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -euo pipefail
-GIT_ROOT=/home/ec2-user/flashcrow
+GIT_ROOT=/home/ec2-user/move_etl
 TASKS_ROOT="${GIT_ROOT}/scripts/airflow/tasks"
 MANUAL_CORR_SQL=/data/conflate_artery_centreline/A4_arteries_manual_corr.sql
 
