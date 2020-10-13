@@ -26,7 +26,7 @@ sudo cp /home/ec2-user/move_etl/scripts/deployment/etl/systemd/airflow-webserver
 sudo cp /home/ec2-user/move_etl/scripts/deployment/etl/systemd/journald.conf /etc/systemd/journald.conf
 
 # install dependencies
-cd /home/ec2-user/flashcrow
+cd /home/ec2-user/move_etl
 pip install -r requirements.txt
 
 # upgrade Airflow database to latest schema

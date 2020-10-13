@@ -1,6 +1,10 @@
-CREATE DATABASE flashcrow;
-CREATE USER flashcrow WITH NOSUPERUSER NOCREATEDB NOCREATEROLE LOGIN PASSWORD ':flashcrowPassword';
-GRANT ALL PRIVILEGES ON DATABASE flashcrow TO flashcrow;
+-- Application database / role creation is taken care of for us by Cloud
+-- Services' AWS environment template.
+--
+-- CREATE DATABASE flashcrow;
+-- CREATE USER flashcrow WITH NOSUPERUSER NOCREATEDB NOCREATEROLE LOGIN PASSWORD NULL;
+-- ALTER ROLE flashcrow WITH PASSWORD ':flashcrowPassword';
+-- GRANT ALL PRIVILEGES ON DATABASE flashcrow TO flashcrow;
 
 \c flashcrow
 create schema "TRAFFIC";

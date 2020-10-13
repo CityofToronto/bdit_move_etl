@@ -44,3 +44,6 @@ def main():
   session.commit()
   session.close()
   print('admin:{0}'.format(password))
+
+if __name__ == '__main__':
+  main()

@@ -28,8 +28,10 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 EOF
+  set +u
   # shellcheck disable=SC1090
   . "$HOME/.bashrc"
+  set -u
 fi
 
 # install correct version of Python
@@ -54,7 +56,9 @@ mkdir -p "$HOME/airflow"
 # shellcheck disable=SC2016
 echo 'export AIRFLOW_HOME="$HOME/airflow"' >> "$HOME/.bashrc"
 # shellcheck disable=SC1090
+set +u
 . "$HOME/.bashrc"
+set -u
 
 # link DAGs
 ln -s /home/ec2-user/move_etl/scripts/airflow/dags /home/ec2-user/airflow/dags
