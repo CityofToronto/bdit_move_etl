@@ -12,7 +12,7 @@ sudo amazon-linux-extras enable nginx1.12
 
 # section: install_base
 sudo yum update -y
-sudo yum install -y nginx postgresql postgresql-contrib postgresql-devel python-devel
+sudo yum install -y bzip2-devel gcc gcc-c++ jq libffi-devel nginx openssl-devel postgresql postgresql-contrib postgresql-devel python-devel readline-devel sqlite-devel zlib-devel
 
 # section: pre_install_flashcrow
 ## /install_python.sh
@@ -28,6 +28,8 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 EOF
+  # shellcheck disable=SC1090
+  . "$HOME/.bashrc"
 fi
 
 # install correct version of Python
