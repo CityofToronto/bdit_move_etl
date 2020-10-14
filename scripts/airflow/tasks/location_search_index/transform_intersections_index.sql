@@ -7,7 +7,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS location_search.centreline_intersection A
     MIN(elevatio9) AS elevatio9
   FROM gis.centreline_intersection
   WHERE
-    intersec5 IS NOT NULL AND intersec5 LIKE '%/%' AND intersec5 NOT LIKE '% Pl%'
+    intersec5 IS NOT NULL AND intersec5 LIKE '%/%'
     AND elevatio9 != 0 AND elevatio9 < 501700
   GROUP BY int_id
 );
