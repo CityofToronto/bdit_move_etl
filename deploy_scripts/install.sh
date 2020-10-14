@@ -10,9 +10,13 @@ set -u
 # section: enable_amazon_linux_extras
 sudo amazon-linux-extras enable nginx1.12
 
+# enable EPEL repo (for postgis utils, e.g. shp2pgsql)
+sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
 # section: install_base
+# dependencies for Python, tippecanoe
 sudo yum update -y
-sudo yum install -y bzip2-devel gcc gcc-c++ jq libffi-devel nginx openssl-devel postgresql postgresql-contrib postgresql-devel python-devel readline-devel sqlite-devel zlib-devel
+sudo yum install -y bzip2-devel gcc gcc-c++ jq libffi-devel nginx openssl-devel postgis postgresql postgresql-contrib postgresql-devel python-devel readline-devel sqlite-devel zlib-devel
 
 # section: pre_install_flashcrow
 ## /install_python.sh

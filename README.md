@@ -22,6 +22,12 @@ env DomainName="{value here}" ./scripts/deployment/rds/airflow_admin_user.py
 # browser saved passwords)
 ```
 
+You may also have to run the following as `flashcrow_dba`, as the `flashcrow` user must have the ability to create new schemas:
+
+```sql
+GRANT ALL PRIVILEGES ON DATABASE flashcrow TO flashcrow;
+```
+
 ## Config Files
 
 These files configure various tools used as part of MOVE's Airflow / ETL setup:
