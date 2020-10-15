@@ -161,6 +161,8 @@ mkdir -p /data/dev_data
   #
 
   # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.centreline -x --no-owner --clean --if-exists --schema-only
+  # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.centreline_intersection -x --no-owner --clean --if-exists --schema-only
   # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.traffic_signal -x --no-owner --clean --if-exists --schema-only
@@ -175,6 +177,7 @@ mkdir -p /data/dev_data
   # refresh data for view definitions
   #
 
+  echo 'REFRESH MATERIALIZED VIEW location_search.centreline;'
   echo 'REFRESH MATERIALIZED VIEW location_search.centreline_intersection;'
   echo 'REFRESH MATERIALIZED VIEW location_search.traffic_signal;'
 
