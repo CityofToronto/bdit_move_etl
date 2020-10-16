@@ -10,7 +10,7 @@ from datetime import datetime
 from airflow_utils import create_dag, create_bash_task_nested
 
 START_DATE = datetime(2020, 5, 5)
-SCHEDULE_INTERVAL = '30 4 * * *'
+SCHEDULE_INTERVAL = '0 7 * * 6'
 DAG = create_dag(__file__, __doc__, START_DATE, SCHEDULE_INTERVAL)
 
 A1_CENTRELINE_FILTERED = create_bash_task_nested(DAG, 'A1_centreline_filtered')

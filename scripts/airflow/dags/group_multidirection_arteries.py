@@ -14,7 +14,7 @@ from datetime import datetime
 from airflow_utils import create_dag, create_bash_task_nested
 
 START_DATE = datetime(2020, 5, 6)
-SCHEDULE_INTERVAL = '0 5 * * *'
+SCHEDULE_INTERVAL = '30 7 * * 6'
 DAG = create_dag(__file__, __doc__, START_DATE, SCHEDULE_INTERVAL)
 
 A2_ARTERIES_MIDBLOCK_LINK_PAIRS = create_bash_task_nested(DAG, 'A2_arteries_midblock_link_pairs')

@@ -11,11 +11,15 @@ import sys
 
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
+import pendulum
 
 AIRFLOW_DAGS = os.path.dirname(os.path.realpath(__file__))
 AIRFLOW_ROOT = os.path.dirname(AIRFLOW_DAGS)
 AIRFLOW_TASKS = os.path.join(AIRFLOW_ROOT, 'tasks')
 AIRFLOW_TASKS_LIB = os.path.join(AIRFLOW_TASKS, 'lib')
+
+# Toronto timezone - important to make sure cron schedules are in the right timezone!
+LOCAL_TZ = pendulum.timezone('America/Toronto')
 
 # Some tasks rely on Python libraries within the `tasks/lib` folder, so
 # we add that to the path here.
@@ -37,6 +41,7 @@ def create_dag(filepath, doc, start_date, schedule_interval):
   This function imposes the convention that a DAG file with name
   `my_dag.py` has ID `my_dag`.
   """
+  start_date_local = LOCAL_TZ.convert(start_date)
   default_args = {
     # When on, `depends_on_past` freezes progress if a previous run failed.
     # This isn't ideal for our use case, so we disable it here.
@@ -45,7 +50,7 @@ def create_dag(filepath, doc, start_date, schedule_interval):
     'email_on_failure': True,
     'email_on_retry': True,
     'owner': 'ec2-user',
-    'start_date': start_date
+    'start_date': start_date_local
   }
 
   # Auto-infer DAG ID from filename.

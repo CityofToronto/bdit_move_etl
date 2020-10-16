@@ -10,7 +10,7 @@ from datetime import datetime
 from airflow_utils import create_dag, create_bash_task_nested
 
 START_DATE = datetime(2019, 7, 17)
-SCHEDULE_INTERVAL = '10 6-22 * * 1-5'
+SCHEDULE_INTERVAL = '20 19 * * 1-5'
 DAG = create_dag(__file__, __doc__, START_DATE, SCHEDULE_INTERVAL)
 
 A1_EVENTS_FIELDS_RAW = create_bash_task_nested(DAG, 'A1_events_fields_raw')
