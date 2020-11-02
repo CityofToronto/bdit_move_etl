@@ -19,6 +19,28 @@ sudo yum update -y
 sudo yum install -y bzip2-devel gcc gcc-c++ jq libffi-devel nginx openssl-devel postgis postgresql postgresql-contrib postgresql-devel python-devel readline-devel sqlite-devel zlib-devel
 
 # section: pre_install_flashcrow
+## /install_node.sh
+if command -v nvm > /dev/null 2>&1; then
+  echo "nvm already installed, skipping..."
+else
+  echo "installing nvm..."
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
+  # ensure that nvm shims are available in current shell session
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+
+# confirm
+echo "$NVM_DIR"
+
+# install correct version of node
+echo "installing node@lts/*..."
+nvm install lts/*
+echo "lts/*" > /home/ec2-user/.nvmrc
+nvm use lts/*
+
+# section: pre_install_flashcrow
 ## /install_python.sh
 if command -v pyenv; then
   echo "pyenv already installed, skipping..."
