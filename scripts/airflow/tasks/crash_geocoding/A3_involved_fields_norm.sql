@@ -12,7 +12,11 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS collisions.involved_fields_norm AS (
     CASE WHEN event2 IS NULL OR trim(event2) = '' THEN NULL ELSE event2::smallint END AS event2,
     CASE WHEN event3 IS NULL OR trim(event3) = '' THEN NULL ELSE event3::smallint END AS event3,
     CASE WHEN per_no IS NULL OR trim(per_no) = '' THEN NULL ELSE per_no::smallint END AS per_no,
-    CASE WHEN invtype IS NULL OR trim(invtype) = '' THEN NULL ELSE invtype::smallint END AS invtype,
+    CASE
+      WHEN invtype IS NULL OR trim(invtype) = '' THEN NULL
+      WHEN lower(invtype) = '1a' THEN NULL
+      ELSE invtype::smallint
+    END AS invtype,
     CASE
       WHEN invage IS NULL OR trim(invage) = '' THEN NULL
       WHEN lower(invage) = 'uk' THEN NULL
