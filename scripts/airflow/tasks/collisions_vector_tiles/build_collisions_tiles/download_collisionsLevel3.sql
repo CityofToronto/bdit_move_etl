@@ -8,8 +8,9 @@ WITH event_injury AS (
 ),
 features AS (
   SELECT
-    ei.collision_id AS "id",
+    e.id,
     e.geom,
+    e.accdate,
     ei.injury,
     CASE
       WHEN ei.injury = 4 THEN 10

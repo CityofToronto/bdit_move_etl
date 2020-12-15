@@ -3,7 +3,8 @@ CREATE SCHEMA IF NOT EXISTS collisions;
 CREATE MATERIALIZED VIEW IF NOT EXISTS collisions.events_fields_raw AS (
   WITH collisions_events_geom AS (
     SELECT
-      row_number() OVER (ORDER BY "ACCDATE", "ACCNB") AS collision_id,
+      row_number() OVER (ORDER BY "ACCDATE", "ACCNB") AS id,
+      CONCAT(date_part('year', "ACCDATE"), ':', "ACCNB") AS collision_id,
       "ACCNB" AS accnb,
       "ACCDATE" AS accdate,
       --max("DAY_NO") AS day_no,

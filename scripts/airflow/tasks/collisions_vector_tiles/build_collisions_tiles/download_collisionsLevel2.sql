@@ -8,8 +8,10 @@ WITH event_injury AS (
 ),
 features AS (
   SELECT
-    ei.collision_id AS "id",
+    e.id,
     e.geom,
+    e.accdate,
+    ei.collision_id AS "collisionId",
     ei.injury
   FROM event_injury ei
   JOIN collisions.events e ON ei.collision_id = e.collision_id

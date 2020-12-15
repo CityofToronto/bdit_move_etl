@@ -2,6 +2,7 @@ CREATE SCHEMA IF NOT EXISTS collisions;
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS collisions.events_fields_norm AS (
   SELECT
+    id,
     collision_id,
     accnb,
     accdate + format('%s hours %s minutes', acctime::int / 100, acctime::int % 100)::interval AS accdate,
