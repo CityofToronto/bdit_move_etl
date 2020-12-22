@@ -4,6 +4,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS centreline.intersections AS (
   SELECT DISTINCT ON (gci.int_id)
     gci.int_id::int AS "centrelineId",
     2 AS "centrelineType",
+    gci.classifi6 AS "classification",
     gci.intersec5 AS "description",
     gci.elevatio9 AS "featureCode",
     gci.geom,
