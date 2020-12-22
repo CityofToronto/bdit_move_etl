@@ -15,5 +15,6 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS centreline.intersection_ids AS (
   SELECT DISTINCT(int_id)
   FROM ids_raw
 );
+CREATE UNIQUE INDEX IF NOT EXISTS centreline_intersection_ids_int_id ON centreline.intersection_ids (int_id);
 
 REFRESH MATERIALIZED VIEW CONCURRENTLY centreline.intersection_ids;

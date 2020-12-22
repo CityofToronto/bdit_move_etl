@@ -161,28 +161,35 @@ mkdir -p /data/dev_data
   #
 
   # shellcheck disable=SC2046
-  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.centreline -x --no-owner --clean --if-exists --schema-only
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t centreline.intersection_ids -x --no-owner --clean --if-exists --schema-only
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t centreline.intersections -x --no-owner --clean --if-exists --schema-only
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t centreline.routing_vertices -x --no-owner --clean --if-exists --schema-only
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t centreline.midblock_names -x --no-owner --clean --if-exists --schema-only
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t centreline.midblocks -x --no-owner --clean --if-exists --schema-only
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t centreline.routing_edges -x --no-owner --clean --if-exists --schema-only
+
   # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.centreline_intersection -x --no-owner --clean --if-exists --schema-only
   # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.traffic_signal -x --no-owner --clean --if-exists --schema-only
 
-  # shellcheck disable=SC2046
-  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t routing.centreline_vertices -x --no-owner --clean --if-exists --schema-only
-  # shellcheck disable=SC2046
-  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t routing.centreline_edges -x --no-owner --clean --if-exists --schema-only
-
-
   #
   # refresh data for view definitions
   #
+  echo 'REFRESH MATERIALIZED VIEW centreline.intersection_ids;'
+  echo 'REFRESH MATERIALIZED VIEW centreline.intersections;'
+  echo 'REFRESH MATERIALIZED VIEW centreline.routing_vertices;'
+  echo 'REFRESH MATERIALIZED VIEW centreline.midblock_names;'
+  echo 'REFRESH MATERIALIZED VIEW centreline.midblocks;'
+  echo 'REFRESH MATERIALIZED VIEW centreline.routing_edges;'
 
-  echo 'REFRESH MATERIALIZED VIEW location_search.centreline;'
   echo 'REFRESH MATERIALIZED VIEW location_search.centreline_intersection;'
   echo 'REFRESH MATERIALIZED VIEW location_search.traffic_signal;'
-
-  echo 'REFRESH MATERIALIZED VIEW routing.centreline_vertices;'
-  echo 'REFRESH MATERIALIZED VIEW routing.centreline_edges;'
 } > "${FLASHCROW_DEV_DATA}"
 
 # compress to reduce copying bandwidth
