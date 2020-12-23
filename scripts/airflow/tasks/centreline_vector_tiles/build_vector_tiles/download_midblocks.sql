@@ -1,16 +1,7 @@
 COPY (
 WITH features AS (
-  SELECT
-    gc.gid AS "id",
-    gc.geom,
-    gc.geo_id AS "centrelineId",
-    1 AS "centrelineType",
-    gc.lf_name AS "name",
-    gc.fcode AS "featureCode",
-    va.aadt
-  FROM gis.centreline gc
-  LEFT JOIN volume.aadt va ON gc.geo_id = va.centreline_id
-  WHERE gc.fcode <= 201800
+  SELECT "centrelineId" AS "id", *
+  FROM centreline.midblocks
 ),
 geojson_features AS (
   SELECT jsonb_build_object(

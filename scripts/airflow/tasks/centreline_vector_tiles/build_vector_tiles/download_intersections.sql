@@ -1,14 +1,7 @@
 COPY (
 WITH features AS (
-  SELECT
-    gid AS "id",
-    geom,
-    int_id AS "centrelineId",
-    2 AS "centrelineType",
-    intersec5 AS "name",
-    elevatio9 AS "featureCode"
-  FROM gis.centreline_intersection
-  WHERE elevatio9 != 0 AND elevatio9 <= 501700
+  SELECT "centrelineId" AS "id", *
+  FROM centreline.intersections
 ),
 geojson_features AS (
   SELECT jsonb_build_object(
