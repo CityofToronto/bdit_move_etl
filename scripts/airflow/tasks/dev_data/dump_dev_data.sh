@@ -174,7 +174,7 @@ mkdir -p /data/dev_data
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t centreline.routing_edges -x --no-owner --clean --if-exists --schema-only
 
   # shellcheck disable=SC2046
-  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.centreline_intersection -x --no-owner --clean --if-exists --schema-only
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.intersections -x --no-owner --clean --if-exists --schema-only
   # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.traffic_signal -x --no-owner --clean --if-exists --schema-only
 
@@ -188,7 +188,7 @@ mkdir -p /data/dev_data
   echo 'REFRESH MATERIALIZED VIEW centreline.midblocks;'
   echo 'REFRESH MATERIALIZED VIEW centreline.routing_edges;'
 
-  echo 'REFRESH MATERIALIZED VIEW location_search.centreline_intersection;'
+  echo 'REFRESH MATERIALIZED VIEW location_search.intersections;'
   echo 'REFRESH MATERIALIZED VIEW location_search.traffic_signal;'
 } > "${FLASHCROW_DEV_DATA}"
 
