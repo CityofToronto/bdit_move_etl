@@ -9,7 +9,8 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_double_node_intersection
       WHEN ncc_from."centrelineType" IS NOT NULL AND ncc_to."centrelineType" IS NOT NULL THEN 2
       WHEN ncc_from."centrelineType" IS NOT NULL OR ncc_to."centrelineType" IS NOT NULL THEN 1
       ELSE 0
-    END AS n
+    END AS n,
+    ST_LineInterpolatePoint(ST_MakeLine(ncc_from.geom, ncc_to.geom), 0.5) AS geom
   FROM counts2.arteries_double_link adl
   LEFT JOIN counts2.nodes_centreline ncc_from ON adl.from_link_id = ncc_from.link_id
   LEFT JOIN counts2.nodes_centreline ncc_to ON adl.to_link_id = ncc_to.link_id
