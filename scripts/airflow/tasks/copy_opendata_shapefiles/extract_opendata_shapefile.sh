@@ -12,7 +12,7 @@ SHAPEFILE_DIR="/data/shapefile/${NAME}"
 mkdir -p /data/shapefile
 
 DATASET_METADATA_URL="${BASE_URL}/action/package_show?id=${DATASET_ID}"
-DATASET_URL=$(curl -s "${DATASET_METADATA_URL}" | jq -r ".result.resources[0].url")
+DATASET_URL=$(curl -s "${DATASET_METADATA_URL}" | jq -r '.result.resources[] | select(.format == "SHP") | .url')
 curl "${DATASET_URL}" > "${SHAPEFILE_ZIP_PATH}"
 
 rm -rf "${SHAPEFILE_DIR}"
