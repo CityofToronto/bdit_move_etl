@@ -7,6 +7,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_double_link_pairs AS (
       adl2.arterycode AS arterycode2,
       LEAST(adl1.from_link_id, adl1.to_link_id) AS from_link_id,
       GREATEST(adl1.from_link_id, adl1.to_link_id) AS to_link_id,
+      ac1.centreline_type,
       ac1.centreline_id,
       ac1.geom AS geom
     FROM counts.arteries_double_link adl1
@@ -22,7 +23,12 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_double_link_pairs AS (
     FROM a
     GROUP BY from_link_id, to_link_id
   )
-  SELECT a.arterycode1, a.arterycode2, a.centreline_id, a.geom
+  SELECT
+    a.arterycode1,
+    a.arterycode2,
+    a.centreline_type,
+    a.centreline_id,
+    a.geom
   FROM a
   JOIN b USING (from_link_id, to_link_id)
   WHERE b.n = 1

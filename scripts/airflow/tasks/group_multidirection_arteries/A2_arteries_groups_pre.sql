@@ -19,11 +19,11 @@ INSERT INTO counts_new.arteries_groups (
     arterycode,
     1 AS match_on_case,
     arterycode AS group_id,
-    2 AS centreline_type,
-    int_id AS centreline_id,
+    centreline_type,
+    centreline_id,
     geom
-  FROM counts.arteries_intersection
-  WHERE int_id IS NOT NULL
+  FROM counts.arteries_centreline
+  WHERE centreline_type = 2
 );
 
 -- Case 2: solo midblocks
@@ -32,8 +32,8 @@ INSERT INTO counts_new.arteries_groups (
     arterycode,
     2 AS match_on_case,
     arterycode AS group_id,
-    1 AS centreline_type,
-    geo_id AS centreline_id,
+    centreline_type,
+    centreline_id,
     geom
   FROM counts.arteries_midblock_solo
 );
@@ -44,19 +44,19 @@ INSERT INTO counts_new.arteries_groups (
     arterycode1 AS arterycode,
     3 AS match_on_case,
     arterycode1 AS group_id,
-    1 AS centreline_type,
-    geo_id AS centreline_id,
+    centreline_type,
+    centreline_id,
     geom
-  FROM counts.arteries_midblock_link_pairs
+  FROM counts.arteries_double_link_pairs
   UNION ALL
   SELECT
     arterycode2 AS arterycode,
     3 AS match_on_case,
     arterycode1 AS group_id,
-    1 AS centreline_type,
-    geo_id AS centreline_id,
+    centreline_type,
+    centreline_id,
     geom
-  FROM counts.arteries_midblock_link_pairs
+  FROM counts.arteries_double_link_pairs
 );
 
--- other cases continue in A4, A5
+-- other cases continue in A3, A4

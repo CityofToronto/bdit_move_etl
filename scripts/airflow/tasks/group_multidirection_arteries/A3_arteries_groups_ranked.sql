@@ -3,12 +3,13 @@ CREATE SCHEMA IF NOT EXISTS counts;
 -- Case 4: greedy ranked pairing with threshold
 CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_midblock_ranked_pairs AS (
   WITH arterycodes_remaining AS (
-    SELECT am.arterycode, am.geo_id
-    FROM counts.arteries_midblock am
+    SELECT ac.arterycode, ac.centreline_type, ac.centreline_id
+    FROM counts.arteries_centreline ac
     LEFT JOIN counts_new.arteries_groups ag USING (arterycode)
-    WHERE am.geo_id IS NOT NULL AND ag.arterycode IS NULL
-  ), geoids_remaining AS (
-    SELECT DISTINCT(geo_id)
+    WHERE ac.centreline_type = 1 AND ac.centreline_id IS NOT NULL
+    AND ag.arterycode IS NULL
+  ), centreline_ids_remaining AS (
+    SELECT DISTINCT(centreline_id)
     FROM arterycodes_remaining
   ), arterycode_count_dates AS (
     SELECT ar.arterycode, ci."COUNT_DATE" AS count_date
@@ -23,13 +24,13 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_midblock_ranked_pairs AS 
     FROM arterycode_count_dates
     GROUP BY arterycode
   )
-  SELECT aps.a1, aps.a2, aps.score, gr.geo_id, aps.geom
-  FROM geoids_remaining gr
+  SELECT aps.a1, aps.a2, aps.score, cir.centreline_id, aps.geom
+  FROM centreline_ids_remaining cir
   JOIN LATERAL (
     WITH arterycodes AS (
       SELECT arterycode
       FROM arterycodes_remaining
-      WHERE geo_id = gr.geo_id
+      WHERE centreline_id = cir.centreline_id
     ), arterycode_pairs AS (
       SELECT a1.arterycode AS a1, a2.arterycode AS a2, ac1.geom AS geom
       FROM arterycodes a1
@@ -47,12 +48,12 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_midblock_ranked_pairs AS 
       SELECT
         ap.a1, ap.a2,
         CASE
-          WHEN aml1.from_link_id = aml2.to_link_id AND aml1.from_link_id = aml2.to_link_id THEN 1
+          WHEN adl1.from_link_id = adl2.to_link_id AND adl1.from_link_id = adl2.to_link_id THEN 1
           ELSE 0
         END AS f_mirrored_links
       FROM arterycode_pairs ap
-      JOIN counts.arteries_midblock_link aml1 ON ap.a1 = aml1.arterycode
-      JOIN counts.arteries_midblock_link aml2 ON ap.a2 = aml2.arterycode
+      JOIN counts.arteries_double_link adl1 ON ap.a1 = adl1.arterycode
+      JOIN counts.arteries_double_link adl2 ON ap.a2 = adl2.arterycode
     ), arterycode_pair_features_3 AS (
       SELECT
         ap.a1, ap.a2,
@@ -89,7 +90,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_midblock_ranked_pairs AS 
     JOIN arterycode_pair_features_4 apf4 USING (a1, a2)
   ) aps ON true
   WHERE aps.score > 0
-  ORDER BY gr.geo_id ASC, aps.score DESC
+  ORDER BY cir.centreline_id ASC, aps.score DESC
 );
 CREATE UNIQUE INDEX IF NOT EXISTS arteries_midblock_ranked_pairs_a1_a2 ON counts.arteries_midblock_ranked_pairs (a1, a2);
 

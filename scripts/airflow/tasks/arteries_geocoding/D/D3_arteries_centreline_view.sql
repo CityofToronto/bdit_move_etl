@@ -1,6 +1,5 @@
 CREATE SCHEMA IF NOT EXISTS counts;
 
--- Update double-buffered view.
 CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_centreline AS (
   SELECT
     ac.arterycode,

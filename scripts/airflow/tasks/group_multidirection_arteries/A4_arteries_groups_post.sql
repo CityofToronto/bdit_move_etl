@@ -1,15 +1,16 @@
 -- Case 5: remaining arterycodes as singles
 INSERT INTO counts_new.arteries_groups (
   SELECT
-    am.arterycode,
+    ac.arterycode,
     5 AS match_on_case,
-    am.arterycode AS group_id,
-    1 AS centreline_type,
-    geo_id AS centreline_id,
-    am.geom
-  FROM counts.arteries_midblock am
+    ac.arterycode AS group_id,
+    ac.centreline_type,
+    ac.centreline_id,
+    ac.geom
+  FROM counts.arteries_centreline ac
   LEFT JOIN counts_new.arteries_groups ag USING (arterycode)
-  WHERE am.geo_id IS NOT NULL AND ag.arterycode IS NULL
+  WHERE ac.centreline_type IS NOT NULL AND ac.centreline_id IS NOT NULL
+  AND ag.arterycode IS NULL
 );
 
 -- Update double-buffered view.
