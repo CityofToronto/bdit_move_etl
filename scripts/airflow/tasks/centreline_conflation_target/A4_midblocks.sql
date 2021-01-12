@@ -21,6 +21,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS centreline.midblocks AS (
   WHERE gc.fcode <= 201803
 );
 CREATE UNIQUE INDEX IF NOT EXISTS centreline_midblocks_centreline ON centreline.midblocks ("centrelineId");
+CREATE INDEX IF NOT EXISTS centreline_midblocks_fnode_tnode ON centreline.midblocks (fnode, tnode);
 CREATE INDEX IF NOT EXISTS centreline_midblocks_geom ON centreline.midblocks USING GIST (geom);
 CREATE INDEX IF NOT EXISTS centreline_midblocks_srid3857_geom ON centreline.midblocks USING GIST (ST_Transform(geom, 3857));
 CREATE INDEX IF NOT EXISTS centreline_midblocks_srid2952_geom ON centreline.midblocks USING GIST (ST_Transform(geom, 2952));

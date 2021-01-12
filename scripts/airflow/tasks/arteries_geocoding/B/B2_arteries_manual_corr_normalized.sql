@@ -1,30 +1,30 @@
-CREATE SCHEMA IF NOT EXISTS counts2;
+CREATE SCHEMA IF NOT EXISTS counts;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_manual_corr_type1 AS (
+CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_manual_corr_type1 AS (
   SELECT DISTINCT ON (arterycode, centreline_id)
     arterycode,
     centreline_id AS "centrelineId"
-  FROM counts2.arteries_manual_corr amc
+  FROM counts.arteries_manual_corr amc
   JOIN centreline.midblocks cm ON amc.centreline_id = cm."centrelineId"
   WHERE artery_type = 1
 );
-CREATE UNIQUE INDEX IF NOT EXISTS arteries_manual_corr_type1_arterycode ON counts2.arteries_manual_corr_type1 (arterycode);
+CREATE UNIQUE INDEX IF NOT EXISTS arteries_manual_corr_type1_arterycode ON counts.arteries_manual_corr_type1 (arterycode);
 
-REFRESH MATERIALIZED VIEW CONCURRENTLY counts2.arteries_manual_corr_type1;
+REFRESH MATERIALIZED VIEW CONCURRENTLY counts.arteries_manual_corr_type1;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_manual_corr_type2 AS (
+CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_manual_corr_type2 AS (
   WITH arterycode_endpoints AS (
     SELECT
       amc.arterycode,
       cm.fnode AS "centrelineId"
-    FROM counts2.arteries_manual_corr amc
+    FROM counts.arteries_manual_corr amc
     JOIN centreline.midblocks cm ON amc.centreline_id = cm."centrelineId"
     WHERE artery_type = 2
     UNION ALL
     SELECT
       amc.arterycode,
       cm.tnode AS "centrelineId"
-    FROM counts2.arteries_manual_corr amc
+    FROM counts.arteries_manual_corr amc
     JOIN centreline.midblocks cm ON amc.centreline_id = cm."centrelineId"
     WHERE artery_type = 2
   ),
@@ -55,6 +55,6 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_manual_corr_type2 AS (
   FROM arterycode_ranking
   WHERE ranking = 1
 );
-CREATE UNIQUE INDEX IF NOT EXISTS arteries_manual_corr_type2_arterycode ON counts2.arteries_manual_corr_type2 (arterycode);
+CREATE UNIQUE INDEX IF NOT EXISTS arteries_manual_corr_type2_arterycode ON counts.arteries_manual_corr_type2 (arterycode);
 
-REFRESH MATERIALIZED VIEW CONCURRENTLY counts2.arteries_manual_corr_type2;
+REFRESH MATERIALIZED VIEW CONCURRENTLY counts.arteries_manual_corr_type2;

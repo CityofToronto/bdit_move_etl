@@ -1,13 +1,13 @@
-CREATE SCHEMA IF NOT EXISTS counts2;
+CREATE SCHEMA IF NOT EXISTS counts;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_double_node_midblocks_multi_best AS (
+CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_double_node_midblocks_multi_best AS (
   WITH text_comparison AS (
     SELECT
       adnmm.arterycode,
       adnmm."centrelineId",
       CONCAT(ad."STREET1", ' ', ad."STREET1TYPE") AS street1,
       cm."midblockName"
-    FROM counts2.arteries_double_node_midblocks_multi adnmm
+    FROM counts.arteries_double_node_midblocks_multi adnmm
     JOIN "TRAFFIC"."ARTERYDATA" ad ON adnmm.arterycode = ad."ARTERYCODE"
     JOIN centreline.midblocks cm USING ("centrelineId")
   ),
@@ -30,6 +30,6 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_double_node_midblocks_mu
   FROM arterycode_ranking
   WHERE ranking = 1 AND score > 0.2
 );
-CREATE UNIQUE INDEX IF NOT EXISTS arteries_double_node_midblocks_multi_best_arterycode ON counts2.arteries_double_node_midblocks_multi_best (arterycode);
+CREATE UNIQUE INDEX IF NOT EXISTS arteries_double_node_midblocks_multi_best_arterycode ON counts.arteries_double_node_midblocks_multi_best (arterycode);
 
-REFRESH MATERIALIZED VIEW CONCURRENTLY counts2.arteries_double_node_midblocks_multi_best;
+REFRESH MATERIALIZED VIEW CONCURRENTLY counts.arteries_double_node_midblocks_multi_best;

@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS counts2;
+CREATE SCHEMA IF NOT EXISTS counts;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.nodes_corrected AS (
+CREATE MATERIALIZED VIEW IF NOT EXISTS counts.nodes_corrected AS (
   SELECT
     "LINK_ID"::bigint AS link_id,
     ST_Transform(
@@ -16,7 +16,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.nodes_corrected AS (
     ) AS geom
   FROM "TRAFFIC"."NODE"
 );
-CREATE UNIQUE INDEX IF NOT EXISTS nodes_corrected_link_id ON counts2.nodes_corrected (link_id);
-CREATE INDEX IF NOT EXISTS nodes_corrected_srid2952_geom ON counts2.nodes_corrected USING gist (ST_Transform(geom, 2952));
+CREATE UNIQUE INDEX IF NOT EXISTS nodes_corrected_link_id ON counts.nodes_corrected (link_id);
+CREATE INDEX IF NOT EXISTS nodes_corrected_srid2952_geom ON counts.nodes_corrected USING gist (ST_Transform(geom, 2952));
 
-REFRESH MATERIALIZED VIEW CONCURRENTLY counts2.nodes_corrected;
+REFRESH MATERIALIZED VIEW CONCURRENTLY counts.nodes_corrected;

@@ -10,7 +10,7 @@ curl -s https://raw.githubusercontent.com/CityofToronto/bdit_volumes/master/volu
 
 {
   cat "${TASKS_ROOT}/arteries_geocoding/manual_corr/arteries_table.sql"
-  echo 'COPY "counts2_new"."arteries_manual_corr" FROM stdin WITH (FORMAT csv, HEADER TRUE);'
+  echo 'COPY "counts_new"."arteries_manual_corr" FROM stdin WITH (FORMAT csv, HEADER TRUE);'
   cat /data/arteries_geocoding/all_corrections.csv
   echo '\.'
   cat "${TASKS_ROOT}/arteries_geocoding/manual_corr/arteries_view.sql"

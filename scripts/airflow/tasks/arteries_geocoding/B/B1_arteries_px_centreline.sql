@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS counts2;
+CREATE SCHEMA IF NOT EXISTS counts;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_px_centreline AS (
+CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_px_centreline AS (
   WITH arterycodes_traffic_signals AS (
     SELECT
       "ARTERYCODE" AS arterycode,
@@ -17,6 +17,6 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_px_centreline AS (
   JOIN location_search.traffic_signal lsts ON ats.px = lsts.px
   JOIN gis.traffic_signal gts ON ats.px = gts.px::int
 );
-CREATE UNIQUE INDEX IF NOT EXISTS arteries_px_centreline_arterycode ON counts2.arteries_px_centreline (arterycode);
+CREATE UNIQUE INDEX IF NOT EXISTS arteries_px_centreline_arterycode ON counts.arteries_px_centreline (arterycode);
 
-REFRESH MATERIALIZED VIEW CONCURRENTLY counts2.arteries_px_centreline;
+REFRESH MATERIALIZED VIEW CONCURRENTLY counts.arteries_px_centreline;

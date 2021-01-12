@@ -1,44 +1,44 @@
-CREATE SCHEMA IF NOT EXISTS counts2;
+CREATE SCHEMA IF NOT EXISTS counts;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_double_node_midblocks AS (
+CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_double_node_midblocks AS (
   SELECT adni.arterycode, cm."centrelineId"
-  FROM counts2.arteries_double_node_intersections adni
+  FROM counts.arteries_double_node_intersections adni
   JOIN centreline.midblocks cm ON (
     (adni.fnode = cm.fnode AND adni.tnode = cm.tnode)
     OR (adni.fnode = cm.tnode AND adni.tnode = cm.fnode)
   )
   WHERE adni.n = 2
 );
-CREATE UNIQUE INDEX IF NOT EXISTS arteries_double_node_midblocks_arterycode_centreline ON counts2.arteries_double_node_midblocks (arterycode, "centrelineId");
+CREATE UNIQUE INDEX IF NOT EXISTS arteries_double_node_midblocks_arterycode_centreline ON counts.arteries_double_node_midblocks (arterycode, "centrelineId");
 
-REFRESH MATERIALIZED VIEW CONCURRENTLY counts2.arteries_double_node_midblocks;
+REFRESH MATERIALIZED VIEW CONCURRENTLY counts.arteries_double_node_midblocks;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_double_node_midblocks_single AS (
+CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_double_node_midblocks_single AS (
   WITH candidate_counts AS (
     SELECT arterycode, count(*) AS n
-    FROM counts2.arteries_double_node_midblocks
+    FROM counts.arteries_double_node_midblocks
     GROUP BY arterycode
   )
   SELECT adnm.arterycode, adnm."centrelineId"
-  FROM counts2.arteries_double_node_midblocks adnm
+  FROM counts.arteries_double_node_midblocks adnm
   JOIN candidate_counts cc USING (arterycode)
   WHERE cc.n = 1
 );
-CREATE UNIQUE INDEX IF NOT EXISTS arteries_double_node_midblocks_single_arterycode ON counts2.arteries_double_node_midblocks_single (arterycode);
+CREATE UNIQUE INDEX IF NOT EXISTS arteries_double_node_midblocks_single_arterycode ON counts.arteries_double_node_midblocks_single (arterycode);
 
-REFRESH MATERIALIZED VIEW CONCURRENTLY counts2.arteries_double_node_midblocks_single;
+REFRESH MATERIALIZED VIEW CONCURRENTLY counts.arteries_double_node_midblocks_single;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_double_node_midblocks_multi AS (
+CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_double_node_midblocks_multi AS (
    WITH candidate_counts AS (
     SELECT arterycode, count(*) AS n
-    FROM counts2.arteries_double_node_midblocks
+    FROM counts.arteries_double_node_midblocks
     GROUP BY arterycode
   )
   SELECT adnm.arterycode, adnm."centrelineId"
-  FROM counts2.arteries_double_node_midblocks adnm
+  FROM counts.arteries_double_node_midblocks adnm
   JOIN candidate_counts cc USING (arterycode)
   WHERE cc.n > 1
 );
-CREATE UNIQUE INDEX IF NOT EXISTS arteries_double_node_midblocks_multi_arterycode_centreline ON counts2.arteries_double_node_midblocks_multi (arterycode, "centrelineId");
+CREATE UNIQUE INDEX IF NOT EXISTS arteries_double_node_midblocks_multi_arterycode_centreline ON counts.arteries_double_node_midblocks_multi (arterycode, "centrelineId");
 
-REFRESH MATERIALIZED VIEW CONCURRENTLY counts2.arteries_double_node_midblocks_multi;
+REFRESH MATERIALIZED VIEW CONCURRENTLY counts.arteries_double_node_midblocks_multi;

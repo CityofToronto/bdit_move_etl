@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS counts2;
+CREATE SCHEMA IF NOT EXISTS counts;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_double_node_intersections AS (
+CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_double_node_intersections AS (
   SELECT
     adl.arterycode,
     ncc_from."centrelineId" AS fnode,
@@ -11,12 +11,12 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts2.arteries_double_node_intersection
       ELSE 0
     END AS n,
     ST_LineInterpolatePoint(ST_MakeLine(ncc_from.geom, ncc_to.geom), 0.5) AS geom
-  FROM counts2.arteries_double_link adl
-  LEFT JOIN counts2.nodes_centreline ncc_from ON adl.from_link_id = ncc_from.link_id
-  LEFT JOIN counts2.nodes_centreline ncc_to ON adl.to_link_id = ncc_to.link_id
+  FROM counts.arteries_double_link adl
+  LEFT JOIN counts.nodes_centreline ncc_from ON adl.from_link_id = ncc_from.link_id
+  LEFT JOIN counts.nodes_centreline ncc_to ON adl.to_link_id = ncc_to.link_id
   WHERE ncc_from."centrelineType" = 2
   AND ncc_to."centrelineType" = 2
 );
-CREATE UNIQUE INDEX IF NOT EXISTS arteries_double_node_intersections_arterycode ON counts2.arteries_double_node_intersections (arterycode);
+CREATE UNIQUE INDEX IF NOT EXISTS arteries_double_node_intersections_arterycode ON counts.arteries_double_node_intersections (arterycode);
 
-REFRESH MATERIALIZED VIEW CONCURRENTLY counts2.arteries_double_node_intersections;
+REFRESH MATERIALIZED VIEW CONCURRENTLY counts.arteries_double_node_intersections;
