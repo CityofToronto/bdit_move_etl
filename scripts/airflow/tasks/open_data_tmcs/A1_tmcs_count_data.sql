@@ -1,9 +1,10 @@
 CREATE SCHEMA IF NOT EXISTS open_data;
 
-CREATE OR REPLACE VIEW open_data.tmcs_data AS (
+CREATE OR REPLACE VIEW open_data.tmcs_count_data AS (
   SELECT
-    "COUNT_INFO_ID" AS count_info_id,
-    "COUNT_TIME" AS count_time,
+    "COUNT_INFO_ID" AS count_id,
+    "COUNT_TIME" - '15 minutes'::interval AS time_start,
+    "COUNT_TIME" AS time_end,
     "N_CARS_R" AS sb_cars_r,
     "N_CARS_T" AS sb_cars_t,
     "N_CARS_L" AS sb_cars_l,

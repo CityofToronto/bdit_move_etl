@@ -1,16 +1,16 @@
 CREATE SCHEMA IF NOT EXISTS open_data;
 
-CREATE OR REPLACE VIEW open_data.tmcs_metadata AS (
+CREATE OR REPLACE VIEW open_data.tmcs_count_metadata AS (
   SELECT
-    cim."COUNT_INFO_ID" AS count_info_id,
+    cim."COUNT_INFO_ID" AS count_id,
     cim."COUNT_DATE" AS count_date,
     cim."ARTERYCODE" AS location_id,
+    ad."LOCATION" AS location,
     ST_X(ac.geom) AS lng,
     ST_Y(ac.geom) AS lat,
     ac.centreline_type,
     ac.centreline_id,
-    lsts.px AS traffic_signal_id,
-    ad."LOCATION"
+    lsts.px
   FROM "TRAFFIC"."COUNTINFOMICS" cim
   JOIN "TRAFFIC"."ARTERYDATA" ad USING ("ARTERYCODE")
   JOIN counts.arteries_centreline ac ON cim."ARTERYCODE" = ac.arterycode
