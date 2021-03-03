@@ -12,10 +12,9 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS counts.arteries_px_centreline AS (
     lsts.px,
     lsts."centrelineType",
     lsts."centrelineId",
-    gts.geom
+    lsts.geom
   FROM arterycodes_traffic_signals ats
   JOIN location_search.traffic_signal lsts ON ats.px = lsts.px
-  JOIN gis.traffic_signal gts ON ats.px = gts.px::int
 );
 CREATE UNIQUE INDEX IF NOT EXISTS arteries_px_centreline_arterycode ON counts.arteries_px_centreline (arterycode);
 

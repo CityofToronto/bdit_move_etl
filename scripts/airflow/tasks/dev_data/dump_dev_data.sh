@@ -13,6 +13,19 @@ mkdir -p /data/dev_data
   cat "${TASKS_ROOT}/dev_data/create_schemas.sql"
 
   #
+  # copy schemas for unsampled tables
+  #
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.traffic_signal -x --no-owner --clean --if-exists --schema-only
+
+  #
+  # copy data for unsampled tables
+  #
+  echo 'COPY location_search.traffic_signal FROM stdin;'
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") psql -v ON_ERROR_STOP=1 -c "COPY (SELECT * FROM location_search.traffic_signal) TO stdout (FORMAT text, ENCODING 'UTF-8')"
+  echo '\.'
+
+  #
   # copy schemas for unsampled views
   #
 
@@ -27,8 +40,6 @@ mkdir -p /data/dev_data
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t flashcrow_dev_data.gis_hospital -x --no-owner --clean --if-exists --schema-only | sed "s/flashcrow_dev_data.gis_hospital/gis.hospital/g"
   # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t flashcrow_dev_data.gis_school -x --no-owner --clean --if-exists --schema-only | sed "s/flashcrow_dev_data.gis_school/gis.school/g"
-  # shellcheck disable=SC2046
-  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t flashcrow_dev_data.gis_traffic_signal -x --no-owner --clean --if-exists --schema-only | sed "s/flashcrow_dev_data.gis_traffic_signal/gis.traffic_signal/g"
 
   # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t flashcrow_dev_data.traffic_category -x --no-owner --clean --if-exists --schema-only | sed 's/flashcrow_dev_data.traffic_category/"TRAFFIC"."CATEGORY"/g'
@@ -62,10 +73,6 @@ mkdir -p /data/dev_data
   echo 'COPY gis.school FROM stdin;'
   # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") psql -v ON_ERROR_STOP=1 -c "COPY (SELECT * FROM gis.school) TO stdout (FORMAT text, ENCODING 'UTF-8')"
-  echo '\.'
-  echo 'COPY gis.traffic_signal FROM stdin;'
-  # shellcheck disable=SC2046
-  env $(xargs < "/home/ec2-user/cot-env.config") psql -v ON_ERROR_STOP=1 -c "COPY (SELECT * FROM gis.traffic_signal) TO stdout (FORMAT text, ENCODING 'UTF-8')"
   echo '\.'
 
   echo 'COPY "TRAFFIC"."CATEGORY" FROM stdin;'
@@ -175,8 +182,6 @@ mkdir -p /data/dev_data
 
   # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.intersections -x --no-owner --clean --if-exists --schema-only
-  # shellcheck disable=SC2046
-  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.traffic_signal -x --no-owner --clean --if-exists --schema-only
 
   #
   # refresh data for view definitions
@@ -189,7 +194,6 @@ mkdir -p /data/dev_data
   echo 'REFRESH MATERIALIZED VIEW centreline.routing_edges;'
 
   echo 'REFRESH MATERIALIZED VIEW location_search.intersections;'
-  echo 'REFRESH MATERIALIZED VIEW location_search.traffic_signal;'
 } > "${FLASHCROW_DEV_DATA}"
 
 # compress to reduce copying bandwidth
