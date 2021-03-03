@@ -8,9 +8,9 @@ mkdir -p /data/open_data/tmcs
 
 # get start and end years
 # shellcheck disable=SC2046
-YEAR_MIN=$(env $(xargs < /home/ec2-user/cot-env.config) psql -v ON_ERROR_STOP=1 -tAc "SELECT min(date_part('year', count_date)) from open_data.tmcs_metadata")
+YEAR_MIN=$(env $(xargs < /home/ec2-user/cot-env.config) psql -v ON_ERROR_STOP=1 -tAc "SELECT min(date_part('year', count_date)) from open_data.tmcs_count_metadata")
 # shellcheck disable=SC2046
-YEAR_MAX=$(env $(xargs < /home/ec2-user/cot-env.config) psql -v ON_ERROR_STOP=1 -tAc "SELECT max(date_part('year', count_date)) from open_data.tmcs_metadata")
+YEAR_MAX=$(env $(xargs < /home/ec2-user/cot-env.config) psql -v ON_ERROR_STOP=1 -tAc "SELECT max(date_part('year', count_date)) from open_data.tmcs_count_metadata")
 
 # get start and end decades
 DECADE_MIN=$(echo "$YEAR_MIN / 10 * 10" | bc)

@@ -3,7 +3,7 @@ CREATE SCHEMA IF NOT EXISTS open_data;
 CREATE OR REPLACE VIEW open_data.tmcs_count_metadata AS (
   SELECT
     cim."COUNT_INFO_ID" AS count_id,
-    cim."COUNT_DATE" AS count_date,
+    cim."COUNT_DATE"::DATE AS count_date,
     cim."ARTERYCODE" AS location_id,
     ad."LOCATION" AS location,
     ST_X(ac.geom) AS lng,
