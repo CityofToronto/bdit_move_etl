@@ -1,11 +1,8 @@
 CREATE SCHEMA IF NOT EXISTS location_search;
 
 --
--- We deliberately create `location_search.traffic_signal` as a table, so that we can use it for
--- downstream processes that need information about traffic signals.
---
--- By doing so, we isolate those processes from changes to upstream datasets, so long as the
--- schema below remains unchanged.
+-- We deliberately create `location_search.traffic_signal` as a table to isolate downstream
+-- processes from changes to upstream datasets.
 --
 CREATE TABLE IF NOT EXISTS location_search.traffic_signal (
   px INT NOT NULL,

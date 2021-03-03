@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-RESOURCE_URL="{{ params.resource_url }}"
 NAME="{{ params.name }}"
+RESOURCE_URL="{{ params.resource_url }}"
 
 SHAPEFILE_ZIP_PATH="/data/shapefile/${NAME}.zip"
 SHAPEFILE_DIR="/data/shapefile/${NAME}"

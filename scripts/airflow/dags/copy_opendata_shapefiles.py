@@ -27,20 +27,26 @@ DAG = create_dag(__file__, __doc__, START_DATE, SCHEDULE_INTERVAL)
 # - in there, look for the URL under `result.resources[].url`.
 #
 TASKS = {
-  'centreline': 'https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/1d079757-377b-4564-82df-eb5638583bfb/resource/cf55ca33-d5ff-427b-9d7a-615db0cebdaa/download/centreline_wgs84_v2.zip',
-  'centreline_intersection': 'https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/2c83f641-7808-49ba-b80f-7011851d4e27/resource/1d84f2f9-f551-477e-a7fa-f92caf2ae28d/download/intersection-file-wgs84.zip'
+  'centreline': {
+    'resource_url': 'https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/1d079757-377b-4564-82df-eb5638583bfb/resource/cf55ca33-d5ff-427b-9d7a-615db0cebdaa/download/centreline_wgs84_v2.zip',
+    'source_srid': 3857
+  },
+  'centreline_intersection': {
+    'resource_url': 'https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/2c83f641-7808-49ba-b80f-7011851d4e27/resource/1d84f2f9-f551-477e-a7fa-f92caf2ae28d/download/intersection-file-wgs84.zip',
+    'source_srid': 4326
+  }
 }
 
 INDEX_OPENDATA = create_bash_task_nested(DAG, 'index_opendata')
 
-for task_id, resource_url in TASKS.items():
+for task_id, params in TASKS.items():
   task_id_extract = '{0}_extract'.format(task_id)
   EXTRACT_OPENDATA_SHAPEFILE = BashOperator(
     task_id=task_id_extract,
     bash_command='/copy_opendata_shapefiles/extract_opendata_shapefile.sh',
     params={
-      'resource_url': resource_url,
-      'name': task_id
+      'name': task_id,
+      'resource_url': params['resource_url']
     },
     dag=DAG
   )
@@ -50,7 +56,8 @@ for task_id, resource_url in TASKS.items():
     task_id=task_id_load,
     bash_command='/copy_opendata_shapefiles/load_shapefile.sh',
     params={
-      'name': task_id
+      'name': task_id,
+      'source_srid': params['source_srid']
     },
     dag=DAG
   )

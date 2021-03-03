@@ -1,5 +1,22 @@
 CREATE SCHEMA IF NOT EXISTS centreline;
 
+--
+-- We deliberately create `centreline.intersections` as a table to isolate downstream
+-- processes from changes to upstream datasets.
+--
+CREATE TABLE IF NOT EXISTS centreline.intersections (
+  "centrelineId" INT NOT NULL,
+  "centrelineType" INT NOT NULL,
+  "classification" VARCHAR,
+  "description" VARCHAR,
+  "featureCode" INT NOT NULL,
+  "geom" GEOMETRY(POINT, 4326) NOT NULL,
+  "lat" DOUBLE NOT NULL,
+  "lng" DOUBLE NOT NULL
+);
+
+TRUNCATE TABLE centreline.intersections;
+
 CREATE MATERIALIZED VIEW IF NOT EXISTS centreline.intersections AS (
   SELECT DISTINCT ON (gci.int_id)
     gci.int_id::int AS "centrelineId",
