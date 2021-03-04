@@ -17,8 +17,6 @@ create table flashcrow_dev_data.counts_arteries_centreline (like counts.arteries
 create table flashcrow_dev_data.gis_hospital (like gis.hospital including indexes);
 create table flashcrow_dev_data.gis_school (like gis.school including indexes);
 
-create table flashcrow_dev_data.location_search_traffic_signal (like location_search.traffic_signal including indexes);
-
 create table flashcrow_dev_data.traffic_arterydata (like "TRAFFIC"."ARTERYDATA" including indexes);
 create table flashcrow_dev_data.traffic_category (like "TRAFFIC"."CATEGORY" including indexes);
 
