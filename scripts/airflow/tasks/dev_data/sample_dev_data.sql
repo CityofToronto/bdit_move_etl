@@ -4,8 +4,6 @@ create schema if not exists flashcrow_dev_data;
 
 drop table if exists flashcrow_dev_data.counts_arteries_centreline;
 
-drop table if exists flashcrow_dev_data.gis_centreline;
-drop table if exists flashcrow_dev_data.gis_centreline_intersection;
 drop table if exists flashcrow_dev_data.gis_hospital;
 drop table if exists flashcrow_dev_data.gis_school;
 
@@ -16,8 +14,6 @@ drop table if exists flashcrow_dev_data.volume_aadt;
 
 create table flashcrow_dev_data.counts_arteries_centreline (like counts.arteries_centreline including indexes);
 
-create table flashcrow_dev_data.gis_centreline (like gis.centreline including indexes);
-create table flashcrow_dev_data.gis_centreline_intersection (like gis.centreline_intersection including indexes);
 create table flashcrow_dev_data.gis_hospital (like gis.hospital including indexes);
 create table flashcrow_dev_data.gis_school (like gis.school including indexes);
 

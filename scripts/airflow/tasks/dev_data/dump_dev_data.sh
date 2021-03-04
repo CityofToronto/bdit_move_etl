@@ -15,11 +15,28 @@ mkdir -p /data/dev_data
   #
   # copy schemas for unsampled tables
   #
+
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t centreline.intersections_base -x --no-owner --clean --if-exists --schema-only
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t centreline.midblocks_base -x --no-owner --clean --if-exists --schema-only
+
+  # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") pg_dump -t location_search.traffic_signal -x --no-owner --clean --if-exists --schema-only
 
   #
   # copy data for unsampled tables
   #
+
+  echo 'COPY centreline.intersections_base FROM stdin;'
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") psql -v ON_ERROR_STOP=1 -c "COPY (SELECT * FROM centreline.intersections_base) TO stdout (FORMAT text, ENCODING 'UTF-8')"
+  echo '\.'
+  echo 'COPY centreline.midblocks_base FROM stdin;'
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") psql -v ON_ERROR_STOP=1 -c "COPY (SELECT * FROM centreline.midblocks_base) TO stdout (FORMAT text, ENCODING 'UTF-8')"
+  echo '\.'
+
   echo 'COPY location_search.traffic_signal FROM stdin;'
   # shellcheck disable=SC2046
   env $(xargs < "/home/ec2-user/cot-env.config") psql -v ON_ERROR_STOP=1 -c "COPY (SELECT * FROM location_search.traffic_signal) TO stdout (FORMAT text, ENCODING 'UTF-8')"

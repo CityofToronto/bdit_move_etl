@@ -12,7 +12,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS collisions.events_segments AS (
 		WHERE ST_DWithin(
       ST_Transform(geom, 2952),
       ST_Transform(ST_SetSRID(ST_MakePoint(e.longitude, e.latitude), 4326), 2952),
-      30
+      20
     )
 	  ORDER BY geom_dist ASC
 	  LIMIT 1
