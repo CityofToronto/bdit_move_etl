@@ -6,3 +6,7 @@ TASKS_ROOT="${GIT_ROOT}/scripts/airflow/tasks"
 
 # shellcheck disable=SC2046
 env $(xargs < "/home/ec2-user/cot-env.config") psql -v ON_ERROR_STOP=1 < "${TASKS_ROOT}/open_data_tmcs/A1_tmcs_count_metadata.sql"
+
+mkdir -p /data/open_data/tmcs
+# shellcheck disable=SC2046
+env $(xargs < "/home/ec2-user/cot-env.config") psql -v ON_ERROR_STOP=1 -v "view=open_data.tmcs_count_metadata" -f "${TASKS_ROOT}/open_data_tmcs/download/download_view_as_csv.sql" > /data/open_data/tmcs/tmcs_count_metadata.csv

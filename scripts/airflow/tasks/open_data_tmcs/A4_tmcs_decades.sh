@@ -19,5 +19,7 @@ for YEAR_START in $(seq $DECADE_MIN 10 $DECADE_MAX); do
   YEAR_END=$(echo "$YEAR_START + 9" | bc)
   echo "$YEAR_START - $YEAR_END"
   DECADE_FILEPATH="/data/open_data/tmcs/tmcs_${YEAR_START}_${YEAR_END}.csv"
-  env $(xargs < "/home/ec2-user/cot-env.config") psql -v ON_ERROR_STOP=1 -v "yearStart=${YEAR_START}" -v "yearEnd=${YEAR_END}" -f "${TASKS_ROOT}/open_data_tmcs/download_tmcs_decade.sql" > "$DECADE_FILEPATH"
+
+  # shellcheck disable=SC2046
+  env $(xargs < "/home/ec2-user/cot-env.config") psql -v ON_ERROR_STOP=1 -v "yearStart=${YEAR_START}" -v "yearEnd=${YEAR_END}" -f "${TASKS_ROOT}/open_data_tmcs/download/download_tmcs_decade.sql" > "$DECADE_FILEPATH"
 done

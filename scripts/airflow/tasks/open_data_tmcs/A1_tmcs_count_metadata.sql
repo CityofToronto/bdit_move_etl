@@ -1,7 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS open_data;
 
 CREATE OR REPLACE VIEW open_data.tmcs_count_metadata AS (
-  SELECT
+  SELECT DISTINCT ON (cim."COUNT_INFO_ID")
     cim."COUNT_INFO_ID" AS count_id,
     cim."COUNT_DATE"::DATE AS count_date,
     cim."ARTERYCODE" AS location_id,
