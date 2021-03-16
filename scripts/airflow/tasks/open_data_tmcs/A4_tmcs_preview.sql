@@ -3,6 +3,7 @@ CREATE SCHEMA IF NOT EXISTS open_data;
 CREATE OR REPLACE VIEW open_data.tmcs_preview AS (
   WITH tmcs_locations_recent AS (
     SELECT * FROM open_data.tmcs_locations
+    WHERE lng IS NOT NULL AND lat IS NOT NULL
     ORDER BY latest_count_date DESC
     LIMIT 1000
   )
